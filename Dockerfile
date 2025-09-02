@@ -13,7 +13,7 @@ ENV NODE_ENV=production
 ENV PORT=5001
 # копируем только нужное
 COPY --from=builder /app/package*.json ./
-RUN npm ci --omit=dev
+RUN npm ci --omit=dev --ignore-scripts
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
