@@ -1,0 +1,22 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    container_name: next-web-dev
+    ports:
+      - "5001:5001"
+    environment:
+      NODE_ENV: development
+      PORT: 5001
+      # Для стабильного file-watching в Docker на macOS/Windows:
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
+      NEXT_TELEMETRY_DISABLED: "1"
+    volumes:
+      - .:/app
+      # Не затираем node_modules внутри контейнера
+      - /app/node_modules
+      # Кеш сборки Next (ускоряет перезапуски)
+      - /app/.next
+    command: npm run dev

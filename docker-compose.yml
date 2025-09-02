@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  web:
+    image: ghcr.io/dzenservices/sni:latest
+    container_name: sni
+    restart: always
+    ports:
+      - "5001:5001"
