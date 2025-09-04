@@ -1,17 +1,20 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-});
+const { createRequire } = require('module');
+
+const requireModule = createRequire(import.meta.url);
+
+// по умолчанию no-op
+let withBundleAnalyzer = (config) => config;
+
+if (process.env.ANALYZE === 'true') {
+  const bundleAnalyzer = requireModule('@next/bundle-analyzer');
+  withBundleAnalyzer = bundleAnalyzer({ enabled: true });
+}
 
 module.exports = withBundleAnalyzer({
-  eslint: {
-    dirs: ['.'],
-  },
+  eslint: { dirs: ['.'] },
   poweredByHeader: false,
   trailingSlash: true,
   basePath: '',
-  // The starter code load resources from `public` folder with `router.basePath` in React components.
-  // So, the source code is "basePath-ready".
-  // You can remove `basePath` if you don't need it.
   reactStrictMode: true,
 });
